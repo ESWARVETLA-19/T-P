@@ -16,6 +16,10 @@ import LanguageIcon from "@mui/icons-material/Language";
 import LaunchButton from "../Buttons/LaunchButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../utils/user";
 
 const { Logo } = navbarContent;
 
@@ -37,13 +41,15 @@ const LinkButton = ({ children, ...props }) => (
 );
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((store)=> store.user.users)
   const scrollPosition = useScrollPosition();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <AppBar 
+    <AppBar
       position="fixed"
       elevation={0}
       sx={{
@@ -69,7 +75,11 @@ const Navbar = () => {
           flexWrap="wrap"
         >
           {/* Logo */}
-          <img src={Logo} style={{ height: "40px", objectFit: "contain" }} alt="Logo" />
+          <img
+            src={Logo}
+            style={{ height: "40px", objectFit: "contain" }}
+            alt="Logo"
+          />
 
           {/* Links */}
           {!isMobile && (
@@ -82,47 +92,63 @@ const Navbar = () => {
               flexWrap="wrap"
             >
               <LinkButton>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                  to="/"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <Typography variant="body2">Home</Typography>
                 </Link>
               </LinkButton>
 
               <LinkButton>
-                <Link to="/team" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                  to="/team"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <Typography variant="body2">Student data</Typography>
                 </Link>
               </LinkButton>
 
               <LinkButton>
-                <Link to="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                  to="/about"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <Typography variant="body2">About</Typography>
                 </Link>
               </LinkButton>
 
               <LinkButton spacing={0.5}>
-                <Link to="/blog" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link
+                  to="/blog"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   <Typography variant="body2">Blog</Typography>
                 </Link>
-                <CallMadeIcon sx={{ fontSize: 12, color: 'white' }} />
+                <CallMadeIcon sx={{ fontSize: 12, color: "white" }} />
               </LinkButton>
             </Stack>
           )}
 
           {/* Action Buttons */}
-          {isMobile ? (
-            <IconButton>
-              <MenuIcon sx={{ color: "white" }} />
-            </IconButton>
-          ) : (
-            <Stack direction="row" spacing={5} alignItems="center">
-              <LinkButton spacing={1}>
-                <LanguageIcon fontSize="small" sx={{ color: 'white' }} />
-                <Typography variant="body2">EN</Typography>
-              </LinkButton>
-
-              <LaunchButton sx={{ borderRadius: 3 }} />
-            </Stack>
-          )}
+          
+          {user? (<Link to="/" style={{ textDecoration: "none" }} onClick={()=> dispatch(logout())}>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                >
+                  Logout
+                  <KeyboardArrowRightIcon />
+                </Button>
+              </Link>) : (<Link to="/signin" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                >
+                  Sign in
+                  <KeyboardArrowRightIcon />
+                </Button>
+              </Link>)}
         </Stack>
       </Container>
     </AppBar>

@@ -10,7 +10,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../utils/user';
+import { login, logout } from '../utils/user';
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme({
     palette: {
         primary: {
@@ -45,6 +46,7 @@ function Signin() {
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user.users);
     const memoizedUser = useMemo(() => user, [user]);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -73,6 +75,7 @@ function Signin() {
         } else {
           console.error(data.message);
         }
+        navigate("/");
       } catch (error) {
         console.error("An error occurred:", error);
       }
@@ -108,9 +111,9 @@ function Signin() {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5" color="#ffffff">
+                    <Typography component="h1" variant="h5" color="#ffffff" onClick={()=> dispatch(logout())}>
                         Sign in
-                    </Typography>
+                        </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -139,6 +142,7 @@ function Signin() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                           
                         >
                             Sign In
                         </Button>

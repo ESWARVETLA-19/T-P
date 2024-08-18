@@ -11,9 +11,11 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Team = () => {
   const theme = useTheme();
+  const user = useSelector((store) => store.user.users);
   const [mockData, setMockData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [companyName, setCompanyName] = useState("");
@@ -24,7 +26,15 @@ const Team = () => {
   }, []);
 
   const getMockData = async () => {
-    const response = await fetch("http://127.0.0.1:8000/student");
+    const response = await fetch("http://127.0.0.1:8000/student", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        'user': user,
+      }),
+    });
     const data = await response.json();
     setMockData(data);
   };

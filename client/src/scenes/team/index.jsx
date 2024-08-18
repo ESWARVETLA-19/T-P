@@ -5,8 +5,10 @@ import Button from '@mui/material/Button';
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Team = () => {
+  const user = useSelector((store) => store.user.users);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [mockData, setMockData] = useState([]);
@@ -22,7 +24,7 @@ const Team = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        'user': "admin@gmail.com",
+        'user': user,
       }),
     });
     const data = await response.json();
@@ -80,7 +82,7 @@ const Team = () => {
             <Button
               style={{ background: "#5656c9", color: "white", padding : "6px 50px"}}
               component={Link}
-              to={`/teams/${reg_no}`}
+              to={`/profile/${reg_no}`}
               variant="outlined"
             >
               View Details

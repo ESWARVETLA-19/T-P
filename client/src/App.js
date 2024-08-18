@@ -30,6 +30,10 @@ function App() {
           element: <Detail />,
         },
         {
+          path: "profile/:id",
+          element: <Detail />,
+        },
+        {
           path: "drives", 
           element: <DriveData />, 
         },

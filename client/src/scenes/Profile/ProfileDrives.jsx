@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
-const Drives = ({ data }) => {
+const ProfileDrives = ({ data }) => {
   const rows = Object.entries(data).map(([key, value], index) => {
     if (typeof value === "object") {
       return {
@@ -36,4 +36,4 @@ const Drives = ({ data }) => {
   );
 };
 
-export default Drives;
+export default ProfileDrives;

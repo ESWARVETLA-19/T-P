@@ -1,7 +1,6 @@
 import {
   AppBar,
   Container,
-  IconButton,
   Stack,
   Typography,
   useMediaQuery,
@@ -12,9 +11,6 @@ import { NAVBAR_HEIGHT } from "../../constants/index";
 import useScrollPosition from "../../hooks/useScrollPosition";
 import { navbarContent } from "../../utils/content";
 import CallMadeIcon from "@mui/icons-material/CallMade";
-import LanguageIcon from "@mui/icons-material/Language";
-import LaunchButton from "../Buttons/LaunchButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { Button } from "@mui/material";
@@ -42,7 +38,7 @@ const LinkButton = ({ children, ...props }) => (
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const user = useSelector((store)=> store.user.users)
+  const user = useSelector((store) => store.user.users);
   const scrollPosition = useScrollPosition();
 
   const theme = useTheme();
@@ -53,7 +49,7 @@ const Navbar = () => {
       position="fixed"
       elevation={0}
       sx={{
-        zIndex: theme.zIndex.drawer + 1, // Ensure it overlaps other components
+        zIndex: theme.zIndex.drawer + 1,
         py: 1,
         height: NAVBAR_HEIGHT,
         bgcolor: scrollPosition > 10 ? "rgba(7,7,16,.7)" : "transparent",
@@ -131,24 +127,27 @@ const Navbar = () => {
           )}
 
           {/* Action Buttons */}
-          
-          {user? (<Link to="/" style={{ textDecoration: "none" }} onClick={()=> dispatch(logout())}>
-                <Button
-                  variant="contained"
-                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
-                >
-                  Logout
-                  <KeyboardArrowRightIcon />
-                </Button>
-              </Link>) : (<Link to="/signin" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
-                >
-                  Sign in
-                  <KeyboardArrowRightIcon />
-                </Button>
-              </Link>)}
+          {user ? (
+            <Link to="/" style={{ textDecoration: "none" }} onClick={() => dispatch(logout())}>
+              <Button
+                variant="contained"
+                sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+              >
+                Logout
+                <KeyboardArrowRightIcon />
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/signin" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+              >
+                Sign in
+                <KeyboardArrowRightIcon />
+              </Button>
+            </Link>
+          )}
         </Stack>
       </Container>
     </AppBar>
@@ -156,3 +155,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

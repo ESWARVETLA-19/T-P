@@ -4,11 +4,11 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import StudentCard from "./StudentCard";
-import ResultCard from "./ResultCard";
-import Drives from "./Drives";
-import Resume from "./Resume";
+import ProfileResultCard from "./ProfileResultCard";
+import ProfileDrives from "./ProfileDrives";
+import ProfileResume from "./ProfileResume";
 
-const Detail = () => {
+const ProfileDetail = () => {
   const { id } = useParams();
   const [studentDetail, setStudentDetail] = useState(null);
   const [result, setResult] = useState(null);
@@ -82,7 +82,7 @@ const Detail = () => {
                   {testArray.map((testObj, testIndex) => {
                     const [testName, testData] = Object.entries(testObj)[0];
                     return (
-                      <ResultCard key={testIndex} title={testName} test={testData} />
+                      <ProfileResultCard key={testIndex} title={testName} test={testData} />
                     );
                   })}
                 </div>
@@ -91,14 +91,14 @@ const Detail = () => {
           </div>
         )}
         {selectedTab === 1 && (
-          <Drives data={drives} />
+          <ProfileDrives data={drives} />
         )}
         {selectedTab === 2 && (
-          <Resume />
+          <ProfileResume studentId = {studentDetail.reg_no}/>
         )}
       </Box>
     </Box>
   );
 };
 
-export default Detail;
+export default ProfileDetail;

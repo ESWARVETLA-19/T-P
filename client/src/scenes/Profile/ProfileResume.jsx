@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Button, TextField, Container, Typography, Box, Paper } from '@mui/material';
 
-const ResumeUpload = () => {
+const ProfileResume = ({studentId}) => {
   const [resumes, setResumes] = useState({
     normalResume: null,
     salesforceResume: null,
@@ -65,7 +65,7 @@ const ResumeUpload = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 2, // Space between rows
+            gap: 2, 
           }}
         >
           <Box
@@ -190,4 +190,4 @@ const ResumeUpload = () => {
   );
 };
 
-export default ResumeUpload;
+export default ProfileResume;

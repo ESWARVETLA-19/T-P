@@ -5,6 +5,7 @@ import { ColorModeContext, useMode } from "./theme";
 import Home from "./pages/Home"; // Home as the layout
 import Body from "./pages/Body"; // Main content component
 import Detail from "./components/Detail"; // Component for team details
+import ProfileDetail from "./scenes/Profile/ProfileDetail";
 import DriveData from "./scenes/Drives"; // Component for drives
 import SigninMain from "./pages/SigninMain"; // Component for sign-in
 import Team from "./scenes/team"; // Component for teams
@@ -31,7 +32,7 @@ function App() {
         },
         {
           path: "profile/:id",
-          element: <Detail />,
+          element: <ProfileDetail />,
         },
         {
           path: "drives", 

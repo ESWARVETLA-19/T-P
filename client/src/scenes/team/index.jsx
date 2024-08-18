@@ -82,7 +82,7 @@ const Team = () => {
             <Button
               style={{ background: "#5656c9", color: "white", padding : "6px 50px"}}
               component={Link}
-              to={`/profile/${reg_no}`}
+              to={`/teams/${reg_no}`}
               variant="outlined"
             >
               View Details

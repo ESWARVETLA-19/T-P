@@ -43,7 +43,7 @@ const ProfileDetail = () => {
       </Box>
     );
   }
-
+  
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -63,7 +63,7 @@ const ProfileDetail = () => {
           },
           "& .Mui-selected": {
             color: "#5c56cb", // Change text color of the selected tab
-            backgroundColor: "primary.main", 
+            backgroundColor: "primary.main",
           },
         }}
       >

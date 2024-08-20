@@ -16,6 +16,10 @@ const appSlice = createSlice({
             state.users = null;
             localStorage.removeItem('users');
         },
+        isStudent: (state) => {
+            state.users = { ...state.users, isStudent: true };
+            localStorage.setItem('users', JSON.stringify(state.users));
+        },
     },
 });
 

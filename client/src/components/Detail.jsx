@@ -62,8 +62,8 @@ const Detail = () => {
             color: "white",
           },
           "& .Mui-selected": {
-            color: "#5c56cb", // Change text color of the selected tab
-            backgroundColor: "primary.main", 
+            color: "white", // Change text color of the selected tab
+            backgroundColor: "purple", 
           },
         }}
       >
@@ -94,7 +94,7 @@ const Detail = () => {
           <Drives data={drives} />
         )}
         {selectedTab === 2 && (
-          <Resume />
+          <Resume data = {studentDetail}/>
         )}
       </Box>
     </Box>

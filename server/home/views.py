@@ -69,7 +69,7 @@ def add_drive_data(request):
             for i in body['results']:
                 student = User.objects.get(reg_no=i['reg_no'])
                 if student.drives is None:
-                    student.drives = {} # type: ignore
+                    student.drives = {} 
                 company_name = i.get('companyName')
                 if company_name:
                     student.drives[company_name] = {'checkedDrives':i['checkedDrives'], 'noOfDrives':i['noOfDrives'], 'selected':i['selected']}

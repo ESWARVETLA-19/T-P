@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 
 const ProfileResume = ({ studentId }) => {
-
   const [resumes, setResumes] = useState({
     normalResume: null,
     salesforceResume: null,
@@ -31,7 +30,7 @@ const ProfileResume = ({ studentId }) => {
     const formData = new FormData();
     formData.append("resume", memoizedResumes[type]);
     formData.append("student_id", studentId);
-    console.log("FormData before upload:", formData); // Add this line
+    console.log("FormData before upload:", formData);
 
     fetch(`http://127.0.0.1:8000/upload/${type}`, {
       method: "POST",
@@ -64,27 +63,36 @@ const ProfileResume = ({ studentId }) => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ padding: 4, backgroundColor: "#5c56cb" }}>
-        <Typography variant="h4" align="center" gutterBottom color="#ffffff">
+    <Container maxWidth="md">
+      <Paper
+        elevation={6}
+        sx={{
+          padding: 4,
+          backgroundColor: "#512da8", // Dark purple color for the main background
+          color: "#ffffff",
+          borderRadius: 2,
+        }}
+      >
+        <Typography variant="h4" align="center" gutterBottom>
           Resume Upload
         </Typography>
 
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
             gap: 2,
           }}
         >
           <Box
             sx={{
-              width: "100%",
-              backgroundColor: "#ffffff",
+              width: "30%",
+              backgroundColor: "#673ab7",
               padding: 2,
-              borderRadius: 1,
-              boxShadow: 1,
+              borderRadius: 2,
+              boxShadow: 3,
             }}
           >
             <TextField
@@ -92,14 +100,14 @@ const ProfileResume = ({ studentId }) => {
               variant="outlined"
               type="file"
               onChange={(e) => handleFileChange(e, "normalResume")}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, backgroundColor: "#d1c4e9" }}
             />
             <Button
               variant="contained"
               color="primary"
               onClick={() => handleUpload("normalResume")}
               disabled={!memoizedResumes.normalResume}
-              sx={{ mb: 1 }}
+              sx={{ mb: 0, mr: 1 }} 
             >
               Upload
             </Button>
@@ -119,11 +127,11 @@ const ProfileResume = ({ studentId }) => {
 
           <Box
             sx={{
-              width: "100%",
-              backgroundColor: "#ffffff",
+              width: "30%",
+              backgroundColor: "#673ab7",
               padding: 2,
-              borderRadius: 1,
-              boxShadow: 1,
+              borderRadius: 2,
+              boxShadow: 3,
             }}
           >
             <TextField
@@ -131,14 +139,14 @@ const ProfileResume = ({ studentId }) => {
               variant="outlined"
               type="file"
               onChange={(e) => handleFileChange(e, "salesforceResume")}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, backgroundColor: "#d1c4e9" }}
             />
             <Button
               variant="contained"
               color="primary"
               onClick={() => handleUpload("salesforceResume")}
               disabled={!memoizedResumes.salesforceResume}
-              sx={{ mb: 1 }}
+              sx={{ mb: 0, mr: 1 }} 
             >
               Upload
             </Button>
@@ -158,11 +166,11 @@ const ProfileResume = ({ studentId }) => {
 
           <Box
             sx={{
-              width: "100%",
-              backgroundColor: "#ffffff",
+              width: "30%",
+              backgroundColor: "#673ab7", // Purple color for the cards
               padding: 2,
-              borderRadius: 1,
-              boxShadow: 1,
+              borderRadius: 2,
+              boxShadow: 3,
             }}
           >
             <TextField
@@ -170,14 +178,14 @@ const ProfileResume = ({ studentId }) => {
               variant="outlined"
               type="file"
               onChange={(e) => handleFileChange(e, "pegaResume")}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, backgroundColor: "#d1c4e9" }} // Lighter shade of purple for the input field
             />
             <Button
               variant="contained"
               color="primary"
               onClick={() => handleUpload("pegaResume")}
               disabled={!memoizedResumes.pegaResume}
-              sx={{ mb: 1 }}
+              sx={{ mb: 0, mr: 1 }} 
             >
               Upload
             </Button>

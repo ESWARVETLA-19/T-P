@@ -54,7 +54,7 @@ class User(AbstractUser):
     is_csm = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
-    reg_no = models.CharField(max_length=10, blank=True, null=True)
+    reg_no = models.CharField(max_length=10, blank=True, null=True, unique=True)
     batch_year = models.CharField(max_length=4, blank=True, null=True)
     batch = models.CharField(max_length=6, blank=True, null=True)
     attempted = models.IntegerField(blank=True, null=True)

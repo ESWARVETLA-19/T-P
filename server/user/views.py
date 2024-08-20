@@ -4,6 +4,7 @@ from .models import User
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password, check_password
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 import json
 
@@ -13,7 +14,6 @@ def signin(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            print(data)
             email = data["email"]
             password = data["password"]
         except (KeyError, json.JSONDecodeError):
@@ -26,19 +26,25 @@ def signin(request):
             )
 
         user = User.objects.get(email=email)
-        authenticated_user = authenticate(request, email=email, password=password)
+        authenticated_user = authenticate(request, username=email, password=password)
 
         if authenticated_user is not None:
             # Check the password using check_password
             if check_password(password, authenticated_user.password):
                 login(request, authenticated_user)
-                return JsonResponse({"message": "Login Successful"}, status=200)
+                # Manually serialize only the required fields
+                user_data = {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "is_student": user.is_student,
+                }
+                return JsonResponse({"message": "Login Successful", "user": user_data}, safe=False, status=200)
+            else:
+                return JsonResponse({"message": "Invalid password"}, status=401)
+        else:
+            return JsonResponse({"message": "Authentication failed"}, status=401)
 
-        return JsonResponse(
-            {"message": "Incorrect registration number or password"}, status=401
-        )
-
-    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def logout_view(request):

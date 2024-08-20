@@ -4,8 +4,9 @@ import Section2 from '../containers/Section2';
 import Section9 from '../containers/Section9';
 import Section11 from '../containers/Section11';
 import Box from '@mui/material/Box';
-
+import { useSelector } from 'react-redux';
 const Body = () => {
+  const isStudent = useSelector((store) => store.user.isStudent);
   return (
     <div>
       
@@ -13,7 +14,7 @@ const Body = () => {
 
       <Box sx={{ bgcolor: "#161b2d", minHeight: "100vh", pt: "20px" }}>
         <Section2 />
-        <Section9 />
+        {!isStudent ? (<Section9 />) : null}
         <Section11 />
       </Box>
     </div>

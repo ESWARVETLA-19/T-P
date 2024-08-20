@@ -38,6 +38,7 @@ def signin(request):
                     "username": user.username,
                     "email": user.email,
                     "is_student": user.is_student,
+                    "reg_no": user.reg_no,
                 }
                 return JsonResponse({"message": "Login Successful", "user": user_data}, safe=False, status=200)
             else:

@@ -5,6 +5,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Button,
 } from "@mui/material";
 import React from "react";
 import { NAVBAR_HEIGHT } from "../../constants/index";
@@ -13,7 +14,6 @@ import { navbarContent } from "../../utils/content";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import { Link } from "react-router-dom";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../utils/user";
 
@@ -39,10 +39,12 @@ const LinkButton = ({ children, ...props }) => (
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.users);
+  const isStudent = useSelector((store) => store.user.isStudent);
   const scrollPosition = useScrollPosition();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
 
   return (
     <AppBar
@@ -96,14 +98,14 @@ const Navbar = () => {
                 </Link>
               </LinkButton>
 
-              <LinkButton>
+              {!isStudent ? (<LinkButton>
                 <Link
                   to="/team"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <Typography variant="body2">Student data</Typography>
                 </Link>
-              </LinkButton>
+              </LinkButton>): null}
 
               <LinkButton>
                 <Link
@@ -127,27 +129,47 @@ const Navbar = () => {
           )}
 
           {/* Action Buttons */}
-          {user ? (
-            <Link to="/" style={{ textDecoration: "none" }} onClick={() => dispatch(logout())}>
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {user && isStudent && (
+              <Link
+                to={`/profile/${user["regno"]}`}
+                style={{ textDecoration: "none" }}
               >
-                Logout
-                <KeyboardArrowRightIcon />
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/signin" style={{ textDecoration: "none" }}>
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                >
+                  Profile
+                </Button>
+              </Link>
+            )}
+
+            {user ? (
+              <Link
+                to="/"
+                style={{ textDecoration: "none" }}
+                onClick={() => dispatch(logout())}
               >
-                Sign in
-                <KeyboardArrowRightIcon />
-              </Button>
-            </Link>
-          )}
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                >
+                  Logout
+                  <KeyboardArrowRightIcon />
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/signin" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                >
+                  Sign in
+                  <KeyboardArrowRightIcon />
+                </Button>
+              </Link>
+            )}
+          </Stack>
         </Stack>
       </Container>
     </AppBar>
@@ -155,4 +177,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

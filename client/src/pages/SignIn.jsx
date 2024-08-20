@@ -10,8 +10,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../utils/user";
+import { login, isStudent as setIsStudent } from "../utils/user"; // Renamed action creator
 import { useNavigate } from "react-router-dom";
+
 const defaultTheme = createTheme({
   palette: {
     primary: {
@@ -50,14 +51,15 @@ function Copyright(props) {
 function Signin() {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.users);
+  const isStudent = useSelector((store) => store.user.isStudent);
   const memoizedUser = useMemo(() => user, [user]);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const reg_no = data.get("email");
-    const password = data.get("password");
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
 
     try {
       const response = await fetch("http://127.0.0.1:8000/user/login", {
@@ -66,22 +68,21 @@ function Signin() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: reg_no,
+          email: email,
           password: password,
         }),
       });
 
       const data = await response.json();
+      console.log("API Response Data:", data);
 
       if (response.ok) {
-        dispatch(login(reg_no));
-        console.log(data.message);
-        console.log(data);
+        // Dispatch login with reg_no from the API response
+        dispatch(login({ regno: data.user.reg_no }));
+        dispatch(setIsStudent(data.user.is_student));
         navigate("/");
       } else {
-        console.error(data.message);
         alert(data.message);
-        navigate("/signin");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -118,12 +119,7 @@ function Signin() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography
-            component="h1"
-            variant="h5"
-            color="#ffffff"
-            onClick={() => dispatch(logout())}
-          >
+          <Typography component="h1" variant="h5" color="#ffffff">
             Sign in
           </Typography>
           <Box

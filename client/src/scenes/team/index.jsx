@@ -16,7 +16,7 @@ const Team = () => {
   useEffect(() => {
     getMockData();
   }, []);
-
+console.log(user);
   const getMockData = async () => {
     const response = await fetch("http://127.0.0.1:8000/student", {
       method: "POST",
@@ -24,7 +24,7 @@ const Team = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        'user': user,
+        'user': user['regno'],
       }),
     });
     const data = await response.json();

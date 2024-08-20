@@ -15,7 +15,7 @@ def all_students(request):
             return HttpResponseBadRequest("User email not provided")
 
         try:
-            user = User.objects.get(email=user_email)
+            user = User.objects.get(reg_no=user_email)
         except User.DoesNotExist:
             return HttpResponseBadRequest("User not found")
 

@@ -32,7 +32,7 @@ const Team = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        'user': user,
+        user: user["regno"],
       }),
     });
     const data = await response.json();

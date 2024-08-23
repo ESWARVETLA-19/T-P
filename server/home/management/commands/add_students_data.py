@@ -76,7 +76,7 @@ class Command(BaseCommand):
                         student.batch = row["Batch"]
                         student.password = make_password(row["ID No."])
                         student.is_student = True
-                        student.tests = {'TCS_PEGA_MOCK_TEST': []}
+                        student.tests = {'TCS_PEGA_MOCK_TEST': []}   
                         student.save()
                         students_created += 1
                         self.stdout.write(
@@ -108,7 +108,9 @@ class Command(BaseCommand):
                         dictionary[mockname]['Accuracy']=row['Accuracy']
                         dictionary[mockname]['Tab Switches']=row['Tab Switches'] 
                     print(dictionary)
-                    student.tests['TCS_PEGA_MOCK_TEST'].append(dictionary)
+                    if 'TCS_PEGA_MOCK_TEST' not in student.tests:
+                        student.tests['TCS_PEGA_MOCK_TEST'] = []
+                    student.tests['TCS_PEGA_MOCK_TEST'].append(dictionary)  
                     student.save()
 
         if students_created > 0:

@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
             "is_csse": True,
             "is_csit": True,
             "is_csm": True,
-            "is_student": True,
+            "is_student": False, 
             "is_staff": True,
             "is_superuser": True,
             **extra_fields,

@@ -57,7 +57,6 @@ class User(AbstractUser):
     reg_no = models.CharField(max_length=10, blank=True, null=True, unique=True)
     batch_year = models.CharField(max_length=4, blank=True, null=True)
     batch = models.CharField(max_length=6, blank=True, null=True)
-    attempted = models.IntegerField(blank=True, null=True)
     tests = models.JSONField(blank=True, null=True)
     drives = models.JSONField(blank=True, null=True)
     documents = models.ManyToManyField(Document, related_name="users")

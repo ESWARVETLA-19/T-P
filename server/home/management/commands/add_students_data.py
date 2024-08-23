@@ -50,8 +50,7 @@ class Command(BaseCommand):
                     "ID No.",
                     "Batch Year",
                     "Batch",
-                    "Category Name",
-                    "Attempted",
+                    "Assessment Name",
                 ]
                 missing_columns = [
                     col for col in required_columns if col not in data.columns
@@ -75,10 +74,9 @@ class Command(BaseCommand):
                         student.email = row["Email"]
                         student.batch_year = row["Batch Year"]
                         student.batch = row["Batch"]
-                        student.attempted = row["Attempted"]
                         student.password = make_password(row["ID No."])
                         student.is_student = True
-                        student.tests = {row["Category Name"]: []}
+                        student.tests = {'TCS_PEGA_MOCK_TEST': []}
                         student.save()
                         students_created += 1
                         self.stdout.write(
@@ -94,23 +92,23 @@ class Command(BaseCommand):
                             )
                         )
                     dictionary = {}
-
-                    for col in data.columns:
-                        if col.startswith("Mock Test-"):
-                            parts = col.split("_")
-                            if len(parts) > 1:
-                                test_name = parts[0]
-                                attribute = parts[1]
-
-                                if test_name not in dictionary:
-                                    dictionary[test_name] = {}
-
-                                if attribute.lower() not in dictionary[test_name]:
-                                    dictionary[test_name][attribute.lower()] = ""
-
-                                dictionary[test_name][attribute.lower()] = row[col]
-
-                    student.tests[row["Category Name"]].append(dictionary)
+                    mockname=row["Assessment Name"]
+                    if mockname not in dictionary:
+                        dictionary[mockname] = {}
+                        dictionary[mockname]['status']=row['Status'] 
+                        dictionary[mockname]['Time Spent']=row['Time Spent']
+                        dictionary[mockname]['Ques Count']=row['Ques Count']
+                        dictionary[mockname]['Attempted Ques']=row['Attempted Ques']
+                        dictionary[mockname]['Positive']=row['Positive']
+                        dictionary[mockname]['Negative']=row['Negative']
+                        dictionary[mockname]['Total']=row['Total']
+                        dictionary[mockname]['Max Marks']=row['Max Marks']
+                        dictionary[mockname]['Percentage']=row['Percentage']
+                        dictionary[mockname]['Qualified']=row['Qualified']
+                        dictionary[mockname]['Accuracy']=row['Accuracy']
+                        dictionary[mockname]['Tab Switches']=row['Tab Switches'] 
+                    print(dictionary)
+                    student.tests['TCS_PEGA_MOCK_TEST'].append(dictionary)
                     student.save()
 
         if students_created > 0:

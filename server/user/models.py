@@ -61,3 +61,4 @@ class User(AbstractUser):
     drives = models.JSONField(blank=True, null=True)
     documents = models.ManyToManyField(Document, related_name="users")
     objects = UserManager()
+    

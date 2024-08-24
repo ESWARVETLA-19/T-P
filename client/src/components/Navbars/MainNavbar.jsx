@@ -137,7 +137,7 @@ const Navbar = () => {
               >
                 <Button
                   variant="contained"
-                  sx={{ borderRadius: 4, backgroundColor: "primary.main" }}
+                  sx={{ borderRadius: 4, backgroundColor: "#002e4e" }}
                 >
                   Profile
                 </Button>

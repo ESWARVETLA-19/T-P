@@ -215,7 +215,7 @@ export const section8Content = {
 };
 
 export const section9Content = {
-  title: "Exam Data Reports",
+  title: "Student Placement Reports",
   ITEMS: [
     {
       title: "Exam Data Reports",

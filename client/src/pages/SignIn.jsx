@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { login, isStudent as setIsStudent } from "../utils/user"; // Renamed action creator
+import { login, isStudent as setIsStudent } from "../utils/user"; 
 import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme({

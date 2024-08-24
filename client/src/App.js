@@ -9,7 +9,8 @@ import ProfileDetail from "./scenes/Profile/ProfileDetail";
 import DriveData from "./scenes/Drives"; // Component for drives
 import SigninMain from "./pages/SigninMain"; // Component for sign-in
 import Team from "./scenes/team"; // Component for teams
-
+import JobApplicationForm from "./scenes/form/JobApplicationForm";
+import JobApplicationDisplay from "./scenes/form/JobApplicationDisplay";
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -42,6 +43,14 @@ function App() {
           path: "signin",
           element: <SigninMain />, 
         },
+        {
+          path: "application",
+          element: <JobApplicationForm />,
+        },
+        {
+          path : "jobs",
+          element: <JobApplicationDisplay />,
+        }
       ],
     },
   ]);

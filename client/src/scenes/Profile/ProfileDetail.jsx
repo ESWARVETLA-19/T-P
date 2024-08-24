@@ -59,11 +59,11 @@ const ProfileDetail = () => {
         centered
         sx={{
           "& .MuiTab-root": {
-            color: "white",
+            color: "#f0f0f0 !important", // Adding !important
           },
-          "& .Mui-selected": {
-            color: "#5c56cb", // Change text color of the selected tab
-            backgroundColor: "primary.main",
+          "& .Mui-selected.MuiTab-root": { // More specific selector
+            color: "#5c56cb !important",
+            backgroundColor: "#171b2d !important",
           },
         }}
       >

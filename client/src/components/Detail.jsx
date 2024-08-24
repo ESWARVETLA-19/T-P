@@ -59,13 +59,14 @@ const Detail = () => {
         centered
         sx={{
           "& .MuiTab-root": {
-            color: "white",
+            color: "#f0f0f0 !important", // Adding !important
           },
-          "& .Mui-selected": {
-            color: "white", // Change text color of the selected tab
-            backgroundColor: "purple", 
+          "& .Mui-selected.MuiTab-root": { // More specific selector
+            color: "#5c56cb !important",
+            backgroundColor: "#171b2d !important",
           },
         }}
+        
       >
         <Tab label="Mock Data" />
         <Tab label="Drive Data" />
@@ -78,7 +79,7 @@ const Detail = () => {
             {Object.entries(result).map(([companyName, testArray], index) => (
               <div key={index}>
                 <h2>{companyName}</h2>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", flexWrap : "wrap", gap : "4px", justifyContent : "center"}}>
                   {testArray.map((testObj, testIndex) => {
                     const [testName, testData] = Object.entries(testObj)[0];
                     return (

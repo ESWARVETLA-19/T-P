@@ -6,7 +6,7 @@ import {
 import React from "react";
 import { section1Content } from "../utils/content";
 import useMeasure from "react-use-measure";
-import hero from "../assets/images/herovideo.mp4";
+import hero from "../assets/images/hero.jpg";
 
 const {
   MainBG,
@@ -33,12 +33,9 @@ const Section1 = () => {
           overflow: "hidden",
         }}
       >
-        <video
+        <img
           src={hero}
-          autoPlay
-          loop
-          muted
-          playsInline
+          alt="hero"
           style={{ width: "100%", height: "40rem", objectFit: "cover" }}
         />
       </Box>

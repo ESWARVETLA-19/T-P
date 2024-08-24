@@ -7,7 +7,7 @@ const { title, ITEMS } = Section11Content;
 
 const Section11 = () => {
   return (
-    <Container sx={{ my: { xs: 10, md: 20, lg: 25 } }}>
+    <Container sx={{ my: { xs: 10, md: 20, lg: 25 } }} style={{display : "flex", flexDirection: "column", alignItems : "center"}} >
       <Title variant={{ xs: "h3", md: "h2" }} sx={{ mb: { xs: 5, md: 8 } }}>
         {title}
       </Title>

@@ -24,7 +24,7 @@ const Resume = ({ data }) => {
         elevation={6}
         sx={{
           padding: 4,
-          backgroundColor: "#512da8", // Dark purple color for the main background
+          backgroundColor: "#5c56cb", 
           color: "#ffffff",
           borderRadius: 2,
         }}

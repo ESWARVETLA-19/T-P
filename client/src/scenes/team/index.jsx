@@ -60,11 +60,6 @@ console.log(user);
       flex: 1,
     },
     {
-      field: "attempted",
-      headerName: "Attempted",
-      flex: 1,
-    },
-    {
       field: "view",
       headerName: "Result",
       flex: 1,

@@ -28,9 +28,29 @@ export default function JobApplicationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
+    
+    try {
+      const response = await fetch("http://127.0.0.1:8000/job_applications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert('Job application submitted successfully!');
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to submit job application: ${errorData.message || 'Please try again.'}`);
+      }
+    } catch (error) {
+      alert('Network error: Failed to submit job application. Please try again later.');
+    }
+    
     dispatch(addFormData(formData)); 
   };
-
+  
   return (
     <Box
       component="form"

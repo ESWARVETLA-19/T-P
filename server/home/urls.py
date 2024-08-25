@@ -12,6 +12,7 @@ urlpatterns = [
     path('edit_job_application/<int:pk>', views.edit_job_application, name='edit_job_application'),
     path('get_job_application/<int:pk>', views.job_application, name='get_job_application'),
     path('add_drive_data',views.add_drive_data, name="add_drive_data"),
-    path("upload/<str:type>",views.upload_resume, name="upload_resume"), # type: ignore
+    path("upload/<str:type>",views.upload_resume, name="upload_resume"),
+    path('get_all_job_applications', views.get_all_job_applications, name='get_all_job_applications'),
 ]
 

@@ -4,11 +4,11 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addFormData } from '../../utils/data';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function JobApplicationForm() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: '',
     jobDescription: '',
@@ -28,27 +28,36 @@ export default function JobApplicationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
-    
+
     try {
-      const response = await fetch("http://127.0.0.1:8000/job_applications", {
-        method: "POST",
+      const response = await fetch('http://127.0.0.1:8000/job_applications', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-  
-      if (response.ok) {
-        alert('Job application submitted successfully!');
-      } else {
-        const errorData = await response.json();
-        alert(`Failed to submit job application: ${errorData.message || 'Please try again.'}`);
+
+      if (!response.ok) {
+        
+        throw new Error('Failed to submit the form');
       }
+
+      const result = await response.json();
+      console.log('Server Response:', result);
+
+      setFormData({
+        companyName: '',
+        jobDescription: '',
+        applicationDeadline: '',
+        driveDate: '',
+        jobApplicationLink: '',
+      });
+      navigate('/jobs');
+      
     } catch (error) {
-      alert('Network error: Failed to submit job application. Please try again later.');
+      console.error('Error submitting the form:', error);
     }
-    
-    dispatch(addFormData(formData)); 
   };
   
   return (

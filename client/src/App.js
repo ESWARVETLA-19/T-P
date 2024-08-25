@@ -11,6 +11,7 @@ import SigninMain from "./pages/SigninMain"; // Component for sign-in
 import Team from "./scenes/team"; // Component for teams
 import JobApplicationForm from "./scenes/form/JobApplicationForm";
 import JobApplicationDisplay from "./scenes/form/JobApplicationDisplay";
+import EditJobApplicationPage from "./scenes/form/EditJobapplicationPage";
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -50,6 +51,10 @@ function App() {
         {
           path : "jobs",
           element: <JobApplicationDisplay />,
+        },
+        {
+          path: "edit_job_application/:id",
+          element: <EditJobApplicationPage/>
         }
       ],
     },

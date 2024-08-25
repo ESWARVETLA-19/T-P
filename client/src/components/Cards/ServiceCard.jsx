@@ -2,15 +2,16 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import OutlinedButton from "../Buttons/OutlinedButton";
 import Title from "../Title";
-import {Link} from "react-router-dom";
-const ServiceCard = ({ title = "", subtitle, image }) => {
+import { Link } from "react-router-dom";
+
+const ServiceCard = ({ title = "", subtitle, image, index }) => {
   const cleanTitle = title.trim();
-  const isExamDataReports = cleanTitle === "Exam Data Reports";
+  const isThirdCard = index === 2;
 
   return (
     <Box
       sx={{
-        height: "100%",
+        height: "80%",
         position: "relative",
         p: 4,
         borderRadius: "30px",
@@ -39,14 +40,15 @@ const ServiceCard = ({ title = "", subtitle, image }) => {
           src={image}
           alt=""
           style={{
-            height: "280px",
+            height: "200px",
             width: "100%",
             objectFit: "contain",
             flex: 1,
+            margin: "10px",
           }}
         />
 
-        <Link to={isExamDataReports ? "/team" : "/drives"}>
+        <Link to={isThirdCard ? "/application" : cleanTitle === "Exam Data Reports" ? "/team" : "/drives"}>
           <OutlinedButton>View More</OutlinedButton>
         </Link>
       </Stack>

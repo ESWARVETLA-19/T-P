@@ -36,8 +36,8 @@ import Sec7Image2 from "../assets/images/section7/grant-program.webp";
 import ShieldImage from "../assets/images/section8/shield.webp";
 
 // Section9
-import Sec9Image1 from "../assets/images/section9/report.png";
-import Sec9Image2 from "../assets/images/section9/student.png";
+import Sec9Image1 from "../assets/images/section9/test.png";
+import Sec9Image2 from "../assets/images/section9/drives.png";
 
 // Section10
 import DiscordImage from "../assets/images/section10/discord.webp";
@@ -222,6 +222,12 @@ export const section9Content = {
       subtitle:
         "Get all the student data in one place",
       image: Sec9Image1,
+    },
+    {
+      title: "Round Details",
+      subtitle:
+        "Get all the drives details in one place",
+      image: Sec9Image2,
     },
     {
       title: "Drives Details",

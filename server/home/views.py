@@ -120,7 +120,7 @@ def delete_file(request, file_id):
         return JsonResponse(response_data, status=201)
     else:
         return JsonResponse({"error": "Invalid data"}, status=400)
-    
+
 @csrf_exempt
 def add_job_applications(request):
     if request.method == "POST":
@@ -144,7 +144,7 @@ def add_job_applications(request):
                 job_application_link=job_application_link
             )
             job_application.save()
-            return JsonResponse({'status': 'success', 'message': 'Job application created successfully'}, status=201)
+            return JsonResponse({'status': 'success', 'message': 'Job application created successfully', 'id':job_application.id}, status=201)
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
@@ -156,43 +156,71 @@ def add_job_applications(request):
     return JsonResponse({'error': 'Invalid request method'}, status=405) 
 
 @csrf_exempt
-def delete_job_application(request, job_id):
+def delete_job_application(request, pk):
     if request.method == 'POST':
-        job_application = JobApplication.objects.get(id=job_id)
-        del job_application
+        job_application = JobApplication.objects.get(id=pk)
+        job_application.delete()
         response_data = {
             "message": "Delete successful",
         }
         return JsonResponse(response_data, status=201)
     else:
         return JsonResponse({"error": "Invalid data"}, status=400)
-    
-def job_application(request, job_id):
-    job_application = JobApplication.objects.get(id=job_id)
-    job_application_dict = model_to_dict(job_application)
-    return JsonResponse(job_application_dict, safe=False)
 
-def edit_job_application(request, job_id):
-    if request.method == 'POST':
+
+@csrf_exempt
+def edit_job_application(request, pk):
+    if request.method == "POST":
         try:
             body = json.loads(request.body)
-            company_name = body.get('companyName')
-            job_description = body.get('jobDescription')
-            application_deadline = body.get('applicationDeadline')
-            drive_date = body.get('driveDate')
-            job_application_link = body.get('jobApplicationLink')
-            
-            if not all([company_name, job_description, application_deadline, drive_date, job_application_link]):
-                return JsonResponse({'error': 'All fields are required'}, status=400)
-            
-            job_application = JobApplication.objects.get(id=job_id)
+            company_name = body.get("company_name")
+            job_description = body.get("job_description")
+            application_deadline = body.get("application_deadline")
+            drive_date = body.get("drive_date")
+            job_application_link = body.get("job_application_link")
+
+            if not all(
+                [
+                    company_name,
+                    job_description,
+                    application_deadline,
+                    drive_date,
+                    job_application_link,
+                ]
+            ):
+                return JsonResponse({"error": "All fields are required"}, status=400)
+
+            job_application = JobApplication.objects.get(id=pk)
             job_application.company_name = company_name
             job_application.job_description = job_description
             job_application.application_deadline = application_deadline
             job_application.drive_date = drive_date
-            job_application.job_application_link = job_application.job_application_link
+            job_application.job_application_link = (
+                job_application_link  # Corrected this line
+            )
             job_application.save()
 
-            return JsonResponse({'status': 'success', 'message': 'Job application updated successfully'}, status=200)
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": "Job application updated successfully",
+                },
+                status=200,
+            )
         except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+        except JobApplication.DoesNotExist:
+            return JsonResponse({"error": "Job application not found"}, status=404)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+def job_application(request, pk):
+    job_application = JobApplication.objects.get(pk=pk)
+    job_application_dict = model_to_dict(job_application)
+    return JsonResponse(job_application_dict, safe=False)
+
+def get_all_job_applications(request):
+    job_applications = JobApplication.objects.all()
+    job_applications_list = [model_to_dict(job_application) for job_application in job_applications]
+    return JsonResponse(job_applications_list, safe=False)

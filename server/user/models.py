@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
-from home.models import Document  # Correctly import Document model
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
             "is_csse": True,
             "is_csit": True,
             "is_csm": True,
-            "is_student": False, 
+            "is_student": False,
             "is_staff": True,
             "is_superuser": True,
             **extra_fields,
@@ -38,12 +38,14 @@ class UserManager(BaseUserManager):
         user = self.create_user(email=email, password=password, **extra_fields)
         return user
 
+
 class User(AbstractUser):
     username = None
     username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(_('email address'), unique=True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    email = models.EmailField(_("email address"), unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     is_cse = models.BooleanField(default=False)
     is_ece = models.BooleanField(default=False)
@@ -59,6 +61,11 @@ class User(AbstractUser):
     batch = models.CharField(max_length=6, blank=True, null=True)
     tests = models.JSONField(blank=True, null=True)
     drives = models.JSONField(blank=True, null=True)
-    documents = models.ManyToManyField(Document, related_name="users")
+    documents = models.ManyToManyField(
+        "home.Document", related_name="users"
+    )  # Use string reference
+
     objects = UserManager()
-    
+
+    def __str__(self):
+        return self.email

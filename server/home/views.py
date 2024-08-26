@@ -1,5 +1,5 @@
 from user.models import User
-from .models import Document,JobApplication
+from .models import Document, JobApplication, AppliedApplication
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.forms.models import model_to_dict
 import json, os
@@ -224,3 +224,36 @@ def get_all_job_applications(request):
     job_applications = JobApplication.objects.all()
     job_applications_list = [model_to_dict(job_application) for job_application in job_applications]
     return JsonResponse(job_applications_list, safe=False)
+
+def submit_application(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            applied = body.get('applied')
+            job_id = body.get('job_id')
+            date_applied = body.get('date_applied')
+            reg_no = body.get('reg_no')
+
+            student = User.objects.get(reg_no=reg_no)
+            job = JobApplication.objects.get(pk=job_id)
+            applied_application = AppliedApplication.objects.create(
+                student=student, job=job, applied_at=date_applied,
+            )
+
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": "Job application updated successfully",
+                    "applied": applied,
+                    "job_id": job_id,
+                    "date_applied": date_applied,
+                    "reg_no": reg_no,
+                },
+                status=200,
+            )
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+        except JobApplication.DoesNotExist:
+            return JsonResponse({"error": "Job application not found"}, status=404)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)

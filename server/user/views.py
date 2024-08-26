@@ -99,3 +99,4 @@ def remove_user(request, user_id):
 
     messages.success(request, 'User deleted successfully!')
     return redirect('app:admin')
+

@@ -46,6 +46,7 @@ const Detail = () => {
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+    
   };
 
   return (

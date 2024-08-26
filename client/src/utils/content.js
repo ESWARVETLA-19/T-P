@@ -235,6 +235,12 @@ export const section9Content = {
         "Get all the drives details in one place",
       image: Sec9Image2,
     },
+    {
+      title: "Companies Details",
+      subtitle:
+        "Get all the drives details in one place",
+      image: Sec9Image2,
+    },
   ],
 };
 

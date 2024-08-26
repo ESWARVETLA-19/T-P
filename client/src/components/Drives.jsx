@@ -9,7 +9,8 @@ const Drives = ({ data }) => {
         name: key,
         checkedDrives: value.checkedDrives,
         noOfDrives: value.noOfDrives,
-        selected: value.selected ? "Yes" : "No", // Convert boolean to readable format
+        selected: value.selected ? "Yes" : "No", 
+        
       };
     } else {
       return {
@@ -27,11 +28,13 @@ const Drives = ({ data }) => {
     { field: "checkedDrives", headerName: "Selected Drives", width: 250 },
     { field: "noOfDrives", headerName: "Number of Drives", width: 250 },
     { field: "selected", headerName: "Selected", width: 250 },
+
   ];
 
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid rows={rows} columns={columns} pageSize={5} />
+
     </div>
   );
 };

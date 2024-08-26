@@ -51,7 +51,6 @@ function Copyright(props) {
 function Signin() {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user.users);
-  const isStudent = useSelector((store) => store.user.isStudent);
   const memoizedUser = useMemo(() => user, [user]);
   const navigate = useNavigate();
 
@@ -77,7 +76,7 @@ function Signin() {
       console.log("API Response Data:", data);
 
       if (response.ok) {
-        // Dispatch login with reg_no from the API response
+        
         dispatch(login({ regno: data.user.reg_no }));
         dispatch(setIsStudent(data.user.is_student));
         navigate("/");

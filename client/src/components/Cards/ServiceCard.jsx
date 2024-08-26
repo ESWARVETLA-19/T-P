@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const ServiceCard = ({ title = "", subtitle, image, index }) => {
   const cleanTitle = title.trim();
   const isThirdCard = index === 2;
+  const isFourthCard = index === 3; // Adding logic for the new card
 
   return (
     <Box
@@ -48,7 +49,12 @@ const ServiceCard = ({ title = "", subtitle, image, index }) => {
           }}
         />
 
-        <Link to={isThirdCard ? "/application" : cleanTitle === "Exam Data Reports" ? "/team" : "/drives"}>
+        <Link to={
+          isFourthCard ? "/jobs" : // New card link
+          isThirdCard ? "/application" : 
+          cleanTitle === "Exam Data Reports" ? "/team" : 
+          "/drives"
+        }>
           <OutlinedButton>View More</OutlinedButton>
         </Link>
       </Stack>

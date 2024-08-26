@@ -12,6 +12,10 @@ import Team from "./scenes/team"; // Component for teams
 import JobApplicationForm from "./scenes/form/JobApplicationForm";
 import JobApplicationDisplay from "./scenes/form/JobApplicationDisplay";
 import EditJobApplicationPage from "./scenes/form/EditJobapplicationPage";
+import Jobs from "./components/Jobs";
+import Apply from "./components/Apply";
+import ResultCard from "./scenes/Profile/ProfileResultCard";
+
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -55,6 +59,14 @@ function App() {
         {
           path: "edit_job_application/:id",
           element: <EditJobApplicationPage/>
+        },
+        {
+          path : "student_jobs",
+          element : <Jobs/>
+        },
+        {
+          path : "apply/:id",
+          element : <Apply/>
         }
       ],
     },

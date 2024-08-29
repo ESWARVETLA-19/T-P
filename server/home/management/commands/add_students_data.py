@@ -121,7 +121,10 @@ class Command(BaseCommand):
                     for col in required_test_columns:
                         # Check if the column exists in the DataFrame
                         if col in row:
-                            dictionary[row["Assessment Name"]][col.lower()] = row[col]
+                            if row[col] == " " or pd.isna(row[col]) or row[col] == "-":
+                                row[col]=0
+                            else:
+                                dictionary[row["Assessment Name"]][col.lower()] = row[col]
                         else:
                             # Handle missing columns by setting a default value
                             dictionary[row["Assessment Name"]][col.lower()] = None

@@ -80,7 +80,7 @@ const ProfileDetail = () => {
             {Object.entries(result).map(([companyName, testArray], index) => (
               <div key={index}>
                 <h2>{companyName}</h2>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex" , flexWrap :"wrap" }}>
                   {testArray.map((testObj, testIndex) => {
                     const [testName, testData] = Object.entries(testObj)[0];
                     return (

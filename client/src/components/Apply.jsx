@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { applyForJob } from '../utils/jobApplications';
 
 export default function Apply() {
@@ -39,8 +39,10 @@ export default function Apply() {
       const applicationData = {
         company_name: formData.company_name,
         applied: hasApplied,
-        reg_no: reg_no, 
-        date_applied: new Date().toISOString().split('T')[0], 
+        reg_no: reg_no,
+        date_applied: new Date().toISOString().split('T')[0],
+        job_id: id, 
+        has_applied: true, 
       };
       console.log(applicationData);
 
@@ -57,7 +59,6 @@ export default function Apply() {
           throw new Error('Network response was not ok');
         }
 
-        dispatch(applyForJob({ jobId: id }));
         navigate('/student_jobs');
       } catch (error) {
         console.error('Error submitting application data:', error);

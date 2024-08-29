@@ -225,6 +225,7 @@ def get_all_job_applications(request):
     job_applications_list = [model_to_dict(job_application) for job_application in job_applications]
     return JsonResponse(job_applications_list, safe=False)
 
+@csrf_exempt
 def submit_application(request):
     if request.method == "POST":
         try:
@@ -234,10 +235,11 @@ def submit_application(request):
             date_applied = body.get('date_applied')
             reg_no = body.get('reg_no')
 
+
             student = User.objects.get(reg_no=reg_no)
             job = JobApplication.objects.get(pk=job_id)
             applied_application = AppliedApplication.objects.create(
-                student=student, job=job, applied_at=date_applied,
+                student=student, job=job, applied_at=date_applied, has_applied=True,
             )
 
             return JsonResponse(
@@ -257,3 +259,16 @@ def submit_application(request):
             return JsonResponse({"error": "Job application not found"}, status=404)
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+@csrf_exempt
+def get_applied_applications(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        print(body.get("reg_no"))
+        student = User.objects.get(reg_no = body.get("reg_no"))
+        applied_applications = student.applied_application.all()
+        applied_applications_list = [model_to_dict(applied_application) for applied_application in applied_applications]
+        return JsonResponse(applied_applications_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+

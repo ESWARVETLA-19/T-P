@@ -1,4 +1,3 @@
-// Jobs.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -12,12 +11,13 @@ import { useSelector } from 'react-redux';
 
 export default function Jobs() {
   const [formDataList, setFormDataList] = useState([]);
+  const [appliedJobs, setAppliedJobs] = useState({});
   const [expandedCard, setExpandedCard] = useState(null);
+  const reg_no = useSelector((store) => store.user.users.regno);
   const navigate = useNavigate();
-  const jobApplications = useSelector((state) => state.jobApplications);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchJobsData = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/get_all_job_applications');
         if (!response.ok) {
@@ -30,8 +30,36 @@ export default function Jobs() {
       }
     };
 
-    fetchData();
-  }, []);
+    const fetchAppliedApplications = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_applied_applications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reg_no: reg_no }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        const appliedJobsData = data.reduce((acc, application) => {
+          if (application.has_applied) {
+            acc[application.job] = true;
+          }
+          return acc;
+        }, {});
+        setAppliedJobs(appliedJobsData);
+      } catch (error) {
+        console.error('Error fetching applied applications:', error);
+      }
+    };
+
+    fetchJobsData();
+    fetchAppliedApplications();
+  }, [reg_no]);
 
   const handleExpandClick = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
@@ -43,12 +71,12 @@ export default function Jobs() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
-        <Typography variant="h2" gutterBottom>
-              Upcoming Drives
-        </Typography>
+      <Typography variant="h2" gutterBottom>
+        Upcoming Drives
+      </Typography>
       {formDataList.map((data, index) => (
         <Card
-          key={index}
+          key={data.id} 
           sx={{
             width: '100%',
             maxWidth: '600px',
@@ -68,7 +96,7 @@ export default function Jobs() {
             <Typography variant="body1" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               Job Description: {data.job_description}
             </Typography>
-            {jobApplications[data.id] && (
+            {appliedJobs[data.id] && (
               <CheckIcon
                 sx={{ color: 'green', position: 'absolute', top: '10px', right: '10px' }}
               />
@@ -89,7 +117,7 @@ export default function Jobs() {
                 color="secondary"
                 sx={{ mt: 2 }}
                 onClick={() => handleApplyClick(data.id)}
-                disabled={jobApplications[data.id]} 
+                disabled={appliedJobs[data.id]} 
               >
                 Apply
               </Button>

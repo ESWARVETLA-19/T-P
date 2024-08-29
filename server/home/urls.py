@@ -14,5 +14,7 @@ urlpatterns = [
     path('add_drive_data',views.add_drive_data, name="add_drive_data"),
     path("upload/<str:type>",views.upload_resume, name="upload_resume"),
     path('get_all_job_applications', views.get_all_job_applications, name='get_all_job_applications'),
+    path('submit_application', views.submit_application, name='submit_application'),
+    path('get_applied_applications', views.get_applied_applications, name='get_applied_applications'),
 ]
 

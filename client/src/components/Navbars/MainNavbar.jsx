@@ -105,7 +105,19 @@ const Navbar = () => {
                 >
                   <Typography variant="body2">Student data</Typography>
                 </Link>
-              </LinkButton>): null}
+              </LinkButton>): null
+              
+              }
+              {!isStudent ? (<LinkButton>
+                <Link
+                  to="/application"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Typography variant="body2">Upcomming Jobs</Typography>
+                </Link>
+              </LinkButton>): null
+              
+              }
              {isStudent ? (<LinkButton spacing={0.5}>
                 <Link
                   to="/student_jobs"
@@ -115,7 +127,7 @@ const Navbar = () => {
                 </Link>
                 <CallMadeIcon sx={{ fontSize: 12, color: "white" }} />
               </LinkButton>) : null}
-
+              
               <LinkButton>
                 <Link
                   to="/about"

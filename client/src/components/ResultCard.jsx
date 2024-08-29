@@ -7,43 +7,40 @@ export default function ResultCard({ title, test }) {
   const testName = title;
   const testData = test;
 
-  const hasData = testData && testData.Total !== "-";
+  const hasData = testData && testData.total !== "-";
 
   return (
     <Card 
       sx={{ 
         minWidth: 275, 
         margin: "12px", 
-        backgroundColor: !hasData ? 'grey' : (testData.Qualified === 'NOT QUALIFIED' ? '#ee4c4c' : 'green')
+        backgroundColor: !hasData ? 'grey' : (testData.qualified === 'NOT QUALIFIED' ? '#ee4c4c' : 'green')
       }}
     >
       <CardContent>
-        <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 20, fontWeight: "bold" }} color="text.secondary" gutterBottom>
           {testName}
         </Typography>
-        <Typography style={{ paddingBottom: "4px", fontWeight : "12px", fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Marks: {hasData ? testData.Total : 'N/A'}
-        </Typography>
-        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Max Marks: {hasData ? testData["Max Marks"] : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Marks: {hasData ? testData.total : 'N/A'}
         </Typography>
         <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
-          Negative Marks: {hasData ? testData.Negative : 'N/A'}
+          Max Marks: {hasData ? testData["max marks"] : 'N/A'}
         </Typography>
-        <Typography style={{ paddingBottom: "4px" , fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Time Spent: {hasData ? testData["Time Spent"] : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Time Spent: {hasData ? testData["time spent"] : 'N/A'}
         </Typography>
-        <Typography style={{ paddingBottom: "4px" , fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Questions Count: {hasData ? testData["Ques Count"] : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Questions Count: {hasData ? testData["ques count"] : 'N/A'}
         </Typography>
-        <Typography style={{ paddingBottom: "4px" , fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Attempted Questions: {hasData ? testData["Attempted Ques"] : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Attempted Questions: {hasData ? testData["attempted ques"] : 'N/A'}
         </Typography>
-        <Typography style={{ paddingBottom: "4px" , fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Accuracy: {hasData ? testData.Accuracy.toFixed(2) + '%' : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Accuracy: {hasData ? testData.accuracy.toFixed(2) + '%' : 'N/A'}
         </Typography>
-        <Typography style={{ paddingBottom: "4px" , fontSize: 15, color: "#ffffff"}} variant="h6" component="div">
-          Tab Switches: {hasData ? testData["Tab Switches"] : 'N/A'}
+        <Typography style={{ paddingBottom: "4px", fontSize: 15, color: "#ffffff" }} variant="h6" component="div">
+          Tab Switches: {hasData ? testData["tab switches"] : 'N/A'}
         </Typography>
       </CardContent>
     </Card>

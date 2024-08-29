@@ -37,6 +37,7 @@ class AppliedApplication(models.Model):
         blank=True,
     )
     applied_at = models.DateField()
+    has_applied = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.student} applied for {self.job}"

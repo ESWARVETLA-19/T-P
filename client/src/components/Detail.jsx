@@ -7,6 +7,7 @@ import StudentCard from "./StudentCard";
 import ResultCard from "./ResultCard";
 import Drives from "./Drives";
 import Resume from "./Resume";
+import ConsolidatedData from "./ConsolidatedData";
 
 const Detail = () => {
   const { id } = useParams();
@@ -72,6 +73,7 @@ const Detail = () => {
         <Tab label="Mock Data" />
         <Tab label="Drive Data" />
         <Tab label="Resumes" />
+        <Tab label="Consolidated Data" />
       </Tabs>
 
       <Box mt="20px">
@@ -98,6 +100,8 @@ const Detail = () => {
         {selectedTab === 2 && (
           <Resume data = {studentDetail}/>
         )}
+        {selectedTab === 3 && (
+          <ConsolidatedData testData={result} userId = {id}/>)}
       </Box>
     </Box>
   );

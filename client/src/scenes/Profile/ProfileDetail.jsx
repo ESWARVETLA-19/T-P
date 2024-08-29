@@ -7,6 +7,7 @@ import StudentCard from "./StudentCard";
 import ProfileResultCard from "./ProfileResultCard";
 import ProfileDrives from "./ProfileDrives";
 import ProfileResume from "./ProfileResume";
+import StudentConsolidatedData from "./StudentConsolidateData";
 
 const ProfileDetail = () => {
   const { id } = useParams();
@@ -59,9 +60,9 @@ const ProfileDetail = () => {
         centered
         sx={{
           "& .MuiTab-root": {
-            color: "#f0f0f0 !important", // Adding !important
+            color: "#f0f0f0 !important", 
           },
-          "& .Mui-selected.MuiTab-root": { // More specific selector
+          "& .Mui-selected.MuiTab-root": { 
             color: "#5c56cb !important",
             backgroundColor: "#171b2d !important",
           },
@@ -70,6 +71,7 @@ const ProfileDetail = () => {
         <Tab label="Mock Data" />
         <Tab label="Drive Data" />
         <Tab label="Resumes" />
+        <Tab label="Consolidated Data" />
       </Tabs>
 
       <Box mt="20px">
@@ -96,6 +98,11 @@ const ProfileDetail = () => {
         {selectedTab === 2 && (
           <ProfileResume studentId = {studentDetail.reg_no}/>
         )}
+        {
+          selectedTab === 3 && (
+            <StudentConsolidatedData testData={result}/>
+          )
+        }
       </Box>
     </Box>
   );

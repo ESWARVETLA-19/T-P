@@ -38,6 +38,7 @@ import ShieldImage from "../assets/images/section8/shield.webp";
 // Section9
 import Sec9Image1 from "../assets/images/section9/test.png";
 import Sec9Image2 from "../assets/images/section9/drives.png";
+import Sec9Image3 from "../assets/images/section9/jobupdates.png"; 
 
 // Section10
 import DiscordImage from "../assets/images/section10/discord.webp";
@@ -230,16 +231,10 @@ export const section9Content = {
       image: Sec9Image2,
     },
     {
-      title: "Drives Details",
-      subtitle:
-        "Get all the drives details in one place",
-      image: Sec9Image2,
-    },
-    {
       title: "Companies Details",
       subtitle:
         "Get all the drives details in one place",
-      image: Sec9Image2,
+      image: Sec9Image3,
     },
   ],
 };

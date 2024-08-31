@@ -12,6 +12,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import InputField from "./inputField.jsx";
 
 const Team = () => {
   const theme = useTheme();
@@ -20,10 +21,16 @@ const Team = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [driveCount, setDriveCount] = useState(3);
+  const [driveName, setDriveName] = useState([]);
+  const [currentDriveName, setCurrentDriveName] = useState("");
 
   useEffect(() => {
     getMockData();
   }, []);
+
+  const setColoumn = (e) => {
+    setDriveCount(e.target.value);
+  };
 
   const getMockData = async () => {
     const response = await fetch("http://127.0.0.1:8000/student", {
@@ -45,7 +52,7 @@ const Team = () => {
     setMockData((prevData) =>
       prevData.map((row) => ({
         ...row,
-        ...Array.from({ length: driveCount }, (_, i) => `drive${i + 1}`).reduce(
+        ...driveName.reduce(
           (acc, drive) => ({
             ...acc,
             [drive]: isChecked,
@@ -74,7 +81,7 @@ const Team = () => {
           const updatedRow = {
             ...row,
             selected: checked,
-            ...Array.from({ length: driveCount }, (_, i) => `drive${i + 1}`).reduce(
+            ...driveName.reduce(
               (acc, drive) => ({
                 ...acc,
                 [drive]: checked,
@@ -89,6 +96,13 @@ const Team = () => {
     );
   };
 
+  const handleAddDrive = () => {
+    if (currentDriveName && !driveName.includes(currentDriveName)) {
+      setDriveName([...driveName, currentDriveName]);
+      setCurrentDriveName("");
+    }
+  };
+
   const columns = [
     {
       field: "username",
@@ -101,14 +115,14 @@ const Team = () => {
       headerName: "Reg. No.",
       flex: 1,
     },
-    ...Array.from({ length: driveCount }, (_, i) => ({
-      field: `drive${i + 1}`,
-      headerName: `Drive ${i + 1}`,
+    ...driveName.map((drive, index) => ({
+      field: drive,
+      headerName: drive,
       flex: 1,
       renderCell: (params) => (
         <Checkbox
-          checked={params.row[`drive${i + 1}`] || false}
-          onChange={handleCheckboxChange(params.row.reg_no, `drive${i + 1}`)}
+          checked={params.row[drive] || false}
+          onChange={handleCheckboxChange(params.row.reg_no, drive)}
         />
       ),
     })),
@@ -127,17 +141,14 @@ const Team = () => {
 
   const handleSubmit = () => {
     const results = mockData.map((row) => {
-      const checkedDrives = Array.from(
-        { length: driveCount },
-        (_, i) => `drive${i + 1}`
-      ).filter((drive) => row[drive]);
+      const checkedDrives = driveName.filter((drive) => row[drive]);
 
       return {
         reg_no: row.reg_no,
         companyName,
         checkedDrives: checkedDrives.length,
-        selected: row.selected || false,  
-        noOfDrives: driveCount,
+        selected: row.selected || false,
+        noOfDrives: driveName.length,
       };
     });
 
@@ -169,18 +180,22 @@ const Team = () => {
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
         />
-        <Select
-          value={driveCount}
-          onChange={(e) => setDriveCount(e.target.value)}
+        <TextField
+          label="Add Drive Name"
+          variant="outlined"
           fullWidth
           margin="normal"
+          value={currentDriveName}
+          onChange={(e) => setCurrentDriveName(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          size="small"
+          style={{ margin: "15px", background: "green" }}
+          onClick={handleAddDrive}
         >
-          {[1, 2, 3, 4, 5].map((num) => (
-            <MenuItem key={num} value={num}>
-              {num} Drives
-            </MenuItem>
-          ))}
-        </Select>
+          Add
+        </Button>
         <FormControlLabel
           control={
             <Checkbox checked={selectAll} onChange={handleSelectAllChange} />

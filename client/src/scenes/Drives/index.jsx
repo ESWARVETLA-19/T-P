@@ -136,7 +136,7 @@ const Team = () => {
         reg_no: row.reg_no,
         companyName,
         checkedDrives: checkedDrives.length,
-        selected: row.selected || false,  // Include selected field in the output data
+        selected: row.selected || false,  
         noOfDrives: driveCount,
       };
     });

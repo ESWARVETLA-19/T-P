@@ -11,7 +11,7 @@ const Section1 = () => {
   const [ref, { height }] = useMeasure();
 
   return (
-    <Box sx={{ width: "100%", position: "relative" }}>
+    <Box sx={{ width: "100%", position: "relative" , bottom : "35px"}}>
       {/* Main Background Image */}
       <Box
         sx={{
@@ -51,8 +51,6 @@ const Section1 = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            height: "800px",
-            top: `calc(${height}px - 10%)`,
           }}
         ></Box>
       </Box>

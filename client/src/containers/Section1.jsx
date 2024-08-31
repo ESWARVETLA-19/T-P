@@ -8,7 +8,7 @@ const { MainBG } = section1Content;
 
 const Section1 = () => {
   const theme = useTheme();
-  const [ref, { height }] = useMeasure();
+  const [ref] = useMeasure();
 
   return (
     <Box sx={{ width: "100%", position: "relative" , bottom : "35px"}}>

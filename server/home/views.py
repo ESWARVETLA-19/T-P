@@ -72,7 +72,7 @@ def add_drive_data(request):
                     student.drives = {} 
                 company_name = i.get('companyName')
                 if company_name:
-                    student.drives[company_name] = {'checkedDrives':i['checkedDrives'], 'noOfDrives':i['noOfDrives'], 'selected':i['selected']}
+                    student.drives[company_name] = {'rounds': i.get('rounds'), 'status': i.get('status')}
                 else:
                     print("Company name is missing")
                 student.save()
@@ -272,3 +272,29 @@ def get_applied_applications(request):
         return JsonResponse(applied_applications_list, safe=False)
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
+
+@csrf_exempt
+def get_applied_students(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            job = JobApplication.objects.get(pk=body.get("job_id"))
+            applied_applications = AppliedApplication.objects.filter(job=job)
+            students = []
+
+            for application in applied_applications:
+                student = application.student
+                students.append(
+                    {
+                        "id": student.id,
+                        "email": student.email,
+                    }
+                )
+
+            return JsonResponse(students, safe=False)
+        except JobApplication.DoesNotExist:
+            return JsonResponse({"error": "Job not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)

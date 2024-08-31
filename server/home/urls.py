@@ -16,5 +16,6 @@ urlpatterns = [
     path('get_all_job_applications', views.get_all_job_applications, name='get_all_job_applications'),
     path('submit_application', views.submit_application, name='submit_application'),
     path('get_applied_applications', views.get_applied_applications, name='get_applied_applications'),
+    path('get_applied_students', views.get_applied_students, name='get_applied_students'),
 ]
 

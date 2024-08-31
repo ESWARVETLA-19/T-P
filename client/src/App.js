@@ -16,25 +16,25 @@ import Jobs from "./components/Jobs";
 import Apply from "./components/Apply";
 import ResultCard from "./scenes/Profile/ProfileResultCard";
 import About from "./components/About";
-
+import JobTracking from "./components/JobTracking";
 function App() {
   const [theme, colorMode] = useMode();
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />, 
+      element: <Home />,
       children: [
         {
-          path: "/", 
+          path: "/",
           element: <Body />,
         },
         {
-          path : "about",
-          element : <About/>
+          path: "about",
+          element: <About />,
         },
         {
-          path: "team", 
+          path: "team",
           element: <Team />,
         },
         {
@@ -46,33 +46,37 @@ function App() {
           element: <ProfileDetail />,
         },
         {
-          path: "drives", 
-          element: <DriveData />, 
+          path: "drives",
+          element: <DriveData />,
         },
         {
           path: "signin",
-          element: <SigninMain />, 
+          element: <SigninMain />,
         },
         {
           path: "application",
           element: <JobApplicationForm />,
         },
         {
-          path : "jobs",
+          path: "jobs",
           element: <JobApplicationDisplay />,
         },
         {
           path: "edit_job_application/:id",
-          element: <EditJobApplicationPage/>
+          element: <EditJobApplicationPage />,
         },
         {
-          path : "student_jobs",
-          element : <Jobs/>
+          path: "student_jobs",
+          element: <Jobs />,
         },
         {
-          path : "apply/:id",
-          element : <Apply/>
-        }
+          path: "apply/:id",
+          element: <Apply />,
+        },
+        {
+          path: "jobs_applied",
+          element: <JobTracking/>,
+        },
       ],
     },
   ]);

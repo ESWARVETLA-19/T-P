@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const ConsolidatedData = ({ testData }) => {
+  const [selectedCompany, setSelectedCompany] = useState(
+    Object.keys(testData)[0]
+  );
   const [rows, setRows] = useState([]);
   const [averages, setAverages] = useState({
     coding_percentage: 0,
@@ -10,19 +14,23 @@ const ConsolidatedData = ({ testData }) => {
   });
 
   useEffect(() => {
+    if (!selectedCompany || !testData[selectedCompany]) return;
+
     // Calculate averages and prepare rows
     let totalCodingPercentage = 0;
     let totalCognitivePercentage = 0;
     let totalTechnicalPercentage = 0;
     let count = 0;
 
-    const processedRows = testData["Accenture Mock Test"].map((test, index) => {
+    const processedRows = testData[selectedCompany].map((test, index) => {
       const testName = Object.keys(test)[0];
       const testDetails = test[testName];
 
       totalCodingPercentage += testDetails["coding percentage"] || 0;
-      totalCognitivePercentage += testDetails["cognitive ability percentage"] || 0;
-      totalTechnicalPercentage += testDetails["technical ability percentage"] || 0;
+      totalCognitivePercentage +=
+        testDetails["cognitive ability percentage"] || 0;
+      totalTechnicalPercentage +=
+        testDetails["technical ability percentage"] || 0;
       count += 1;
 
       return {
@@ -53,25 +61,25 @@ const ConsolidatedData = ({ testData }) => {
     }
 
     setRows(processedRows);
-  }, [testData]);
+  }, [selectedCompany, testData]);
 
   const columns = [
-    { field: 'testName', headerName: 'Test Name', width: 150 },
-    { field: 'percentage', headerName: 'Percentage (%)', width: 150 },
-    { field: 'qualified', headerName: 'Qualified', width: 120 },
-    { field: 'accuracy', headerName: 'Accuracy (%)', width: 150 },
-    { field: 'cognitiveTotal', headerName: 'Cognitive Total', width: 180 },
-    { field: 'cognitivePercentage', headerName: 'Cognitive (%)', width: 180 },
-    { field: 'technicalTotal', headerName: 'Technical Total', width: 180 },
-    { field: 'technicalPercentage', headerName: 'Technical (%)', width: 180 },
-    { field: 'codingTotal', headerName: 'Coding Total', width: 150 },
-    { field: 'codingPercentage', headerName: 'Coding (%)', width: 150 },
+    { field: "testName", headerName: "Test Name", width: 150 },
+    { field: "percentage", headerName: "Percentage (%)", width: 150 },
+    { field: "qualified", headerName: "Qualified", width: 120 },
+    { field: "accuracy", headerName: "Accuracy (%)", width: 150 },
+    { field: "cognitiveTotal", headerName: "Cognitive Total", width: 180 },
+    { field: "cognitivePercentage", headerName: "Cognitive (%)", width: 180 },
+    { field: "technicalTotal", headerName: "Technical Total", width: 180 },
+    { field: "technicalPercentage", headerName: "Technical (%)", width: 180 },
+    { field: "codingTotal", headerName: "Coding Total", width: 150 },
+    { field: "codingPercentage", headerName: "Coding (%)", width: 150 },
   ];
 
   // Add a final row for averages
   const averageRow = {
     id: rows.length + 1,
-    testName: 'Averages',
+    testName: "Averages",
     percentage: 0,
     qualified: 0,
     accuracy: 0,
@@ -84,12 +92,41 @@ const ConsolidatedData = ({ testData }) => {
   };
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid 
-        rows={[...rows, averageRow]} 
-        columns={columns} 
-        pageSize={5} 
-      />
+    <div>
+      <Box sx={{ marginBottom: 2 }}>
+        <FormControl fullWidth>
+          <InputLabel id="company-select-label">Select Company</InputLabel>
+          <Select
+            labelId="company-select-label"
+            id="company-select"
+            value={selectedCompany}
+            label="Select Company"
+            onChange={(e) => setSelectedCompany(e.target.value)}
+            sx={{
+              backgroundColor: "#5656c9", // Light background color for the dropdown
+              borderRadius: "4px", // Rounded corners
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(0, 0, 0, 0.23)", // Border color on hover
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "rgba(0, 0, 0, 0.23)",
+              },
+              "& .MuiSvgIcon-root": {
+                color: "white", // Customize the arrow icon color
+              },
+            }}
+          >
+            {Object.keys(testData).map((company) => (
+              <MenuItem key={company} value={company}>
+                {company}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid rows={[...rows, averageRow]} columns={columns} pageSize={5} />
+      </div>
     </div>
   );
 };

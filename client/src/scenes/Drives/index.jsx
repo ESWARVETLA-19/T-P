@@ -141,14 +141,18 @@ const Team = () => {
 
   const handleSubmit = () => {
     const results = mockData.map((row) => {
-      const checkedDrives = driveName.filter((drive) => row[drive]);
+      // Create an object with drive names as keys and selection status as values
+      const driveSelections = driveName.reduce((acc, drive) => {
+        acc[drive] = row[drive] || false; // true if selected, false otherwise
+        return acc;
+      }, {});
 
       return {
         reg_no: row.reg_no,
         companyName,
-        checkedDrives: checkedDrives.length,
         selected: row.selected || false,
         noOfDrives: driveName.length,
+        drives: driveSelections, // Add this line to include the object with drive name: selected format
       };
     });
 

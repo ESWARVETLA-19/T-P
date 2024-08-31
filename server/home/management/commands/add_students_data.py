@@ -6,8 +6,6 @@ import pandas as pd
 
 
 class Command(BaseCommand):
-    help = "Create or update students with mock test data from multiple files"
-
     def add_arguments(self, parser):
         parser.add_argument(
             "directory", type=str, help="Directory containing mock test XLSX files"
@@ -48,8 +46,8 @@ class Command(BaseCommand):
                     "Name",
                     "Email",
                     "ID No.",
-                    "Batch Year",
-                    "Batch",
+                    # "Batch Year",
+                    # "Branch",
                 ]
                 missing_columns = [
                     col for col in required_columns if col not in data.columns
@@ -64,39 +62,21 @@ class Command(BaseCommand):
                     continue
 
                 for index, row in data.iterrows():
-                    student, created = User.objects.get_or_create(
-                        reg_no=row["ID No."],
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"Student with ID {row['ID No.']} "
+                        )
                     )
+                    student= User.objects.get(
+                        reg_no=row["ID No."].upper(),
+                    )
+                    students_updated += 1
+                    # Ensure student.tests is not None
+                    if student.tests is None:
+                        student.tests = {}
 
-                    if created:
-                        student.username = row["Name"]
-                        student.email = row["Email"]
-                        student.batch_year = row["Batch Year"]
-                        student.batch = row["Batch"]
-                        student.password = make_password(row["ID No."])
-                        student.is_student = True
-                        student.tests = {"Accenture Mock Test": []}
-                        student.save()
-                        students_created += 1
-                        self.stdout.write(
-                            self.style.SUCCESS(
-                                f"Student with ID {row['ID No.']} created"
-                            )
-                        )
-                    else:
-                        students_updated += 1
-                        self.stdout.write(
-                            self.style.WARNING(
-                                f"Student with ID {row['ID No.']} updated"
-                            )
-                        )
-
-                        # Ensure student.tests is not None
-                        if student.tests is None:
-                            student.tests = {}
-
-                    if "Accenture Mock Test" not in student.tests:
-                        student.tests["Accenture Mock Test"] = []
+                    if "Accenture Full Length Mock Test" not in student.tests:
+                        student.tests["Accenture Full Length Mock Test"] = []
 
                     required_test_columns = [
                         "Status",
@@ -128,8 +108,8 @@ class Command(BaseCommand):
                         else:
                             # Handle missing columns by setting a default value
                             dictionary[row["Assessment Name"]][col.lower()] = None
-
-                    student.tests["Accenture Mock Test"].append(dictionary)
+                    if dictionary not in student.tests["Accenture Full Length Mock Test"]:
+                        student.tests["Accenture Full Length Mock Test"].append(dictionary)
                     student.save()
 
         if students_created > 0:

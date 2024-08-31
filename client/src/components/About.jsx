@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, Avatar } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Container, Typography, Grid, Card, CardContent, CardMedia, Avatar } from '@mui/material';
 
 // Sample data for faculty members
 const facultyData = [
@@ -22,30 +21,9 @@ const facultyData = [
   // Add more faculty members as needed
 ];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  facultyCard: {
-    margin: theme.spacing(2),
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(2),
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  facultyAvatar: {
-    marginRight: theme.spacing(2),
-    width: theme.spacing(10),
-    height: theme.spacing(10),
-  },
-}));
-
 function About() {
-  const classes = useStyles();
-
   return (
-    <Container className={classes.root}>
+    <Container sx={{ paddingTop: 4, paddingBottom: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         About Our Department
       </Typography>
@@ -61,8 +39,19 @@ function About() {
       <Grid container spacing={4}>
         {facultyData.map((faculty, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card className={classes.facultyCard}>
-              <Avatar src={faculty.imageUrl} alt={faculty.name} className={classes.facultyAvatar} />
+            <Card
+              sx={{
+                margin: 2,
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="200"
+                image={faculty.imageUrl}
+                alt={faculty.name}
+                sx={{ objectFit: 'cover' }}
+              />
               <CardContent>
                 <Typography variant="h6" component="h3">
                   {faculty.name}

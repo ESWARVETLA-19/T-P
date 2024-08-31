@@ -1,71 +1,90 @@
-import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, Avatar } from '@mui/material';
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "./theme";
+import Home from "./pages/Home"; // Home as the layout
+import Body from "./pages/Body"; // Main content component
+import Detail from "./components/Detail"; // Component for team details
+import ProfileDetail from "./scenes/Profile/ProfileDetail";
+import DriveData from "./scenes/Drives"; // Component for drives
+import SigninMain from "./pages/SigninMain"; // Component for sign-in
+import Team from "./scenes/team"; // Component for teams
+import JobApplicationForm from "./scenes/form/JobApplicationForm";
+import JobApplicationDisplay from "./scenes/form/JobApplicationDisplay";
+import EditJobApplicationPage from "./scenes/form/EditJobapplicationPage";
+import Jobs from "./components/Jobs";
+import Apply from "./components/Apply";
+import ResultCard from "./scenes/Profile/ProfileResultCard";
+import About from "./components/About";
 
-// Sample data for faculty members
-const facultyData = [
-  {
-    name: 'Dr. John Doe',
-    position: 'Professor & Head of Department',
-    imageUrl: 'https://example.com/john_doe.jpg',
-  },
-  {
-    name: 'Dr. Jane Smith',
-    position: 'Assistant Professor',
-    imageUrl: 'https://example.com/jane_smith.jpg',
-  },
-  {
-    name: 'Dr. Emily Brown',
-    position: 'Associate Professor',
-    imageUrl: 'https://example.com/emily_brown.jpg',
-  },
-  // Add more faculty members as needed
-];
+function App() {
+  const [theme, colorMode] = useMode();
 
-function About() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />, 
+      children: [
+        {
+          path: "/", 
+          element: <Body />,
+        },
+        {
+          path : "about",
+          element : <About/>
+        },
+        {
+          path: "team", 
+          element: <Team />,
+        },
+        {
+          path: "teams/:id",
+          element: <Detail />,
+        },
+        {
+          path: "profile/:id",
+          element: <ProfileDetail />,
+        },
+        {
+          path: "drives", 
+          element: <DriveData />, 
+        },
+        {
+          path: "signin",
+          element: <SigninMain />, 
+        },
+        {
+          path: "application",
+          element: <JobApplicationForm />,
+        },
+        {
+          path : "jobs",
+          element: <JobApplicationDisplay />,
+        },
+        {
+          path: "edit_job_application/:id",
+          element: <EditJobApplicationPage/>
+        },
+        {
+          path : "student_jobs",
+          element : <Jobs/>
+        },
+        {
+          path : "apply/:id",
+          element : <Apply/>
+        }
+      ],
+    },
+  ]);
+
   return (
-    <Container sx={{ paddingTop: 4, paddingBottom: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        About Our Department
-      </Typography>
-      <Typography variant="body1" paragraph>
-        Welcome to the Department of Computer Science. Our department is dedicated to providing
-        high-quality education and research opportunities in the field of computer science. Our
-        faculty members are experts in their fields and are committed to fostering an environment
-        of learning and innovation.
-      </Typography>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Meet Our Faculty
-      </Typography>
-      <Grid container spacing={4}>
-        {facultyData.map((faculty, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card
-              sx={{
-                margin: 2,
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={faculty.imageUrl}
-                alt={faculty.name}
-                sx={{ objectFit: 'cover' }}
-              />
-              <CardContent>
-                <Typography variant="h6" component="h3">
-                  {faculty.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {faculty.position}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
-export default About;
+export default App;

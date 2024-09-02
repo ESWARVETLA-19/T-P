@@ -20,21 +20,21 @@ def all_students(request):
             return HttpResponseBadRequest("User not found")
 
         if user.is_staff:
-            students = User.objects.all()
+            students = User.objects.all().filter(is_student=True)
         elif user.is_cse:
-            students = User.objects.filter(batch__contains="CSE")
+            students = User.objects.filter(batch__contains="CSE").filter(is_student=True)
         elif user.is_ece:
-            students = User.objects.filter(batch__contains="ECE")
+            students = User.objects.filter(batch__contains="ECE").filter(is_student=True)
         elif user.is_eee:
-            students = User.objects.filter(batch__contains="EEE")
+            students = User.objects.filter(batch__contains="EEE").filter(is_student=True)
         elif user.is_mech:
-            students = User.objects.filter(batch__contains="MECH")
+            students = User.objects.filter(batch__contains="MECH").filter(is_student=True)
         elif user.is_csse:
-            students = User.objects.filter(batch__contains="CSSE")
+            students = User.objects.filter(batch__contains="CSSE").filter(is_student=True)
         elif user.is_csit:
-            students = User.objects.filter(batch__contains="CSIT")
+            students = User.objects.filter(batch__contains="CSIT").filter(is_student=True)
         elif user.is_csm:
-            students = User.objects.filter(batch__contains="CSM")
+            students = User.objects.filter(batch__contains="CSM").filter(is_student=True)
         else:
             return HttpResponseBadRequest("Invalid user type")
 
@@ -66,13 +66,14 @@ def add_drive_data(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
+            print(body)
             for i in body['results']:
                 student = User.objects.get(reg_no=i['reg_no'])
                 if student.drives is None:
                     student.drives = {} 
                 company_name = i.get('companyName')
                 if company_name:
-                    student.drives[company_name] = {'rounds': i.get('rounds'), 'status': i.get('status')}
+                    student.drives[company_name] = {'drives': i.get('drives'), 'selected': i.get('selected')}
                 else:
                     print("Company name is missing")
                 student.save()
@@ -278,7 +279,7 @@ def get_applied_students(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
-            job = JobApplication.objects.get(pk=body.get("job_id"))
+            job = JobApplication.objects.get(company_name=body.get("job_name"))
             applied_applications = AppliedApplication.objects.filter(job=job)
             students = []
 
@@ -286,8 +287,9 @@ def get_applied_students(request):
                 student = application.student
                 students.append(
                     {
-                        "id": student.id,
+                        "id": job.company_name,
                         "email": student.email,
+                        "appliedAt": application.applied_at,
                     }
                 )
 
@@ -298,3 +300,11 @@ def get_applied_students(request):
             return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
+def job_company_name(request):
+    if request.method == "GET":
+        job_applications = JobApplication.objects.all()
+        company_names = [job.company_name for job in job_applications]
+        if company_names:
+            return JsonResponse(company_names, safe=False)
+        else:
+            return JsonResponse({"error": "No companies found"}, status=404)
